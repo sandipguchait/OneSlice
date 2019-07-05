@@ -8,7 +8,7 @@ const MenuStyled = styled.div`
   margin: 0px 400px 50px 20px;
 `
 
-export const Menu = () => {
+export const Menu = ({ setOpenFood }) => {
   return (
     <MenuStyled>
       {Object.entries(foods).map(([sectionName, foods]) => (
@@ -16,7 +16,7 @@ export const Menu = () => {
           <h1>{sectionName}</h1>
           <FoodGrid>
             {foods.map((food, i) => (
-              <Food img={food.img} key={i}>
+              <Food img={food.img} key={i} onClick={() => setOpenFood(food)}>
                 <FoodLabel>
                 {food.name}
                 </FoodLabel>
