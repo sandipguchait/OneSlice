@@ -17,8 +17,8 @@ const App = () => {
   return (
     <>
       <GlobalStyle/>
-      <FoodDialog {...openFood} {...orders} {...Toggle}/>
-      <Navbar {...Toggle}/>
+      <FoodDialog {...openFood} {...orders}/>
+      <Navbar {...Toggle} {...orders}/>
       { Toggle.orderToggle ? <Order {...orders}/> : null}
       <Banner/>
       <Menu {...openFood}/>

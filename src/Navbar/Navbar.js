@@ -34,7 +34,7 @@ const CartButton = styled(ConfirmButton)`
   background-color: white;
 `
 
-export function Navbar({ setOrderToggle, orderToggle }) {
+export function Navbar({ setOrderToggle, orderToggle, orders }) {
 
    const orderCartToggle = () => {
     setOrderToggle(!orderToggle)
@@ -46,7 +46,7 @@ export function Navbar({ setOrderToggle, orderToggle }) {
         OneSlice <span role="img" aria-label="pizza logo">🍕</span>
       </Logo>
       <CartButton onClick={orderCartToggle}>
-        {orderToggle ? <>❌</> : <>🛒</>}
+        {orderToggle ? <>❌</> : <>🛒{orders.length > 0 ? <>{orders.length}</> : null }</>}
       </CartButton>
     </Navbarstyled>
   )

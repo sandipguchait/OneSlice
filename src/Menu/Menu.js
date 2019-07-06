@@ -2,10 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { foods } from '../Data/FoodData';
 import { Food, FoodGrid , FoodLabel } from './FoodGrid';
+import { formatPrice } from '../Data/FoodData';
+
 
 const MenuStyled = styled.div`
   height: 1000px;
-  margin: 0px 400px 50px 20px;
+  margin: 0px 20px 50px 20px;
 `
 
 export const Menu = ({ setOpenFood }) => {
@@ -18,7 +20,8 @@ export const Menu = ({ setOpenFood }) => {
             {foods.map((food, i) => (
               <Food img={food.img} key={i} onClick={() => setOpenFood(food)}>
                 <FoodLabel>
-                {food.name}
+                <div>{food.name}</div>
+                <div>{formatPrice(food.price)}</div>
                 </FoodLabel>
               </Food>
             ))}

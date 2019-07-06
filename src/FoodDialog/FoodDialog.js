@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { FoodLabel } from '../Menu/FoodGrid';
 import { pizzaRed } from '../Styles/colors';
 import { Title } from '../Styles/title';
+import { formatPrice } from '../Data/FoodData';
+
 
 const Dialog = styled.div`
   width: 500px;
@@ -14,6 +16,11 @@ const Dialog = styled.div`
   left: calc(50% - 250px);
   display: flex;
   flex-direction: column;
+  @media (max-width: 768px) {
+    width: 300px;
+    align: center;
+    left: 10%
+  }
 `
 const DialogShadow = styled.div`
   position: fixed;
@@ -62,7 +69,7 @@ export const ConfirmButton = styled(Title)`
 `;
 
 
-export const FoodDialog = ({ openFood, setOpenFood, setOrders, orders, setOrderToggle }) => {
+export const FoodDialog = ({ openFood, setOpenFood, setOrders, orders }) => {
 
   const closeModal = () => {
     setOpenFood();
@@ -70,13 +77,12 @@ export const FoodDialog = ({ openFood, setOpenFood, setOrders, orders, setOrderT
   if(!openFood) return null;
 
   const order = {
-    name: openFood.name
-  }
+    ...openFood
+  };
 
   const addToOrder = () => {
     setOrders([...orders, order]);
     closeModal();
-    setOrderToggle(true);
   }
 
   return openFood ? (
@@ -90,7 +96,7 @@ export const FoodDialog = ({ openFood, setOpenFood, setOrders, orders, setOrderT
         </DialogContent>
         <DialogFooter>
           <ConfirmButton onClick={addToOrder}>
-            Order Now
+            Add To Cart: {formatPrice(openFood.price)}
           </ConfirmButton>
         </DialogFooter>
       </Dialog>
