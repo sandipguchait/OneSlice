@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { GlobalStyle } from './Styles/GlobalStyle';
 import { Navbar } from './Navbar/Navbar';
 import { Banner } from './Banner/Banner';
@@ -8,12 +8,13 @@ import { Order } from './Order/Order';
 import { useOpenFood } from './Hooks/useOpenFood';
 import { useToggleHook } from './Hooks/useToggleHook';
 import { useOrders } from './Hooks/useOrder';
-
+import { useTitle } from './Hooks/useTitle';
 
 const App = () => {
   const openFood = useOpenFood();
   const Toggle = useToggleHook(false);
   const orders = useOrders();
+  useTitle({ ...openFood, ...orders });
   return (
     <>
       <GlobalStyle/>
