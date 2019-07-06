@@ -13,7 +13,7 @@ const Navbarstyled = styled.div`
    z-index: 999;
    display: flex;
    display: grid;
-   grid-template-columns: 1fr 90px;
+   grid-template-columns: 1fr 120px;
    gap: 20px;
 `
 const Logo = styled(Title)`
@@ -29,14 +29,14 @@ const CartButton = styled(ConfirmButton)`
   border-radius: 5px;
   padding: 3px;
   text-align: center;
-  width: 50px;
+  width: 60px;
   cursor: pointer;
   background-color: white;
 `
 
 export function Navbar({ setOrderToggle, orderToggle }) {
 
-  const orderCartToggle = () => {
+   const orderCartToggle = () => {
     setOrderToggle(!orderToggle)
   };
 
@@ -45,7 +45,9 @@ export function Navbar({ setOrderToggle, orderToggle }) {
       <Logo>
         OneSlice <span role="img" aria-label="pizza logo">🍕</span>
       </Logo>
-      <CartButton onClick={orderCartToggle}>CART</CartButton>
+      <CartButton onClick={orderCartToggle}>
+        {orderToggle ? <>❌</> : <>🛒</>}
+      </CartButton>
     </Navbarstyled>
   )
 }

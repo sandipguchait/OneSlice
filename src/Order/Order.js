@@ -20,12 +20,15 @@ const OrderContent = styled(DialogContent)`
 `;
 
 
-export const Order = () => {
+export const Order = ({ orders }) => {
   return (
     <OrderStyled>
-        <OrderContent>
+       { orders.length === 0 ? <OrderContent>
           Your Cart is empty
-        </OrderContent>
+        </OrderContent> : 
+        <OrderContent>
+          Found {orders.length} orders
+        </OrderContent> }
         <DialogFooter>
           <ConfirmButton>
             CheckOut

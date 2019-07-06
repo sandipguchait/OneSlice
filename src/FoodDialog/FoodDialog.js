@@ -4,7 +4,6 @@ import { FoodLabel } from '../Menu/FoodGrid';
 import { pizzaRed } from '../Styles/colors';
 import { Title } from '../Styles/title';
 
-
 const Dialog = styled.div`
   width: 500px;
   background-color: white;
@@ -63,10 +62,21 @@ export const ConfirmButton = styled(Title)`
 `;
 
 
-export const FoodDialog = ({ openFood, setOpenFood }) => {
+export const FoodDialog = ({ openFood, setOpenFood, setOrders, orders, setOrderToggle }) => {
 
   const closeModal = () => {
     setOpenFood();
+  };
+  if(!openFood) return null;
+
+  const order = {
+    name: openFood.name
+  }
+
+  const addToOrder = () => {
+    setOrders([...orders, order]);
+    closeModal();
+    setOrderToggle(true);
   }
 
   return openFood ? (
@@ -79,7 +89,7 @@ export const FoodDialog = ({ openFood, setOpenFood }) => {
         <DialogContent>
         </DialogContent>
         <DialogFooter>
-          <ConfirmButton>
+          <ConfirmButton onClick={addToOrder}>
             Order Now
           </ConfirmButton>
         </DialogFooter>

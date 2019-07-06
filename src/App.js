@@ -5,20 +5,23 @@ import { Banner } from './Banner/Banner';
 import { Menu } from './Menu/Menu';
 import { FoodDialog } from './FoodDialog/FoodDialog';
 import { Order } from './Order/Order';
+import { useOpenFood } from './Hooks/useOpenFood';
+import { useToggleHook } from './Hooks/useToggleHook';
+import { useOrders } from './Hooks/useOrder';
 
 
 const App = () => {
-  const [openFood, setOpenFood] = useState();
-  const [orderToggle, setOrderToggle] = useState(false);
-
+  const openFood = useOpenFood();
+  const Toggle = useToggleHook(false);
+  const orders = useOrders();
   return (
     <>
       <GlobalStyle/>
-      <FoodDialog openFood={openFood} setOpenFood={setOpenFood}/>
-      <Navbar setOrderToggle={setOrderToggle} orderToggle={orderToggle}/>
-      { orderToggle ? <Order/> : null}
+      <FoodDialog {...openFood} {...orders} {...Toggle}/>
+      <Navbar {...Toggle}/>
+      { Toggle.orderToggle ? <Order {...orders}/> : null}
       <Banner/>
-      <Menu setOpenFood={setOpenFood}/>
+      <Menu {...openFood}/>
     </>
   );
 }
