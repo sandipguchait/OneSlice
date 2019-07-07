@@ -38,6 +38,14 @@ const OrderItem = styled.div`
 
 
 export const Order = ({ orders }) => {
+  
+  const subTotal = orders.reduce((total, currentPrice) => {
+    return total = total + getPrice(currentPrice);
+  }, 0)
+
+  const Tax = subTotal * 0.07 ;
+  const Total = subTotal + Tax ;
+
   return (
     <OrderStyled>
        { orders.length === 0 ? <OrderContent>
@@ -56,6 +64,27 @@ export const Order = ({ orders }) => {
               </OrderItem>
             </OrderContainer>
           ))}
+          <OrderContainer>
+            <OrderItem>
+            <div/>
+            <div>Sub-Total</div>
+            <div>{formatPrice(subTotal)}</div>
+            </OrderItem>
+          </OrderContainer>
+          <OrderContainer>
+            <OrderItem>
+            <div/>
+            <div>VAT</div>
+            <div>{formatPrice(Tax)}</div>
+            </OrderItem>
+          </OrderContainer>
+          <OrderContainer>
+            <OrderItem>
+            <div/>
+            <div><strong>Total</strong></div>
+            <div><strong>{formatPrice(Total)}</strong></div>
+            </OrderItem>
+          </OrderContainer>
         </OrderContent> }
         <DialogFooter>
           <ConfirmButton>
