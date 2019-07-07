@@ -36,6 +36,11 @@ const OrderItem = styled.div`
   justify-content: space-between;
 `;
 
+const DetailItem = styled.div`
+  color: grey;
+  font-size: 10px;
+`
+
 
 export const Order = ({ orders }) => {
   
@@ -62,6 +67,13 @@ export const Order = ({ orders }) => {
                 <div>{order.name}</div>
                 <div>{formatPrice(getPrice(order))}</div>
               </OrderItem>
+              <DetailItem>
+                {order.toppings
+                .filter(item => item.checked)
+                .map(topping => topping.name)
+                .join(", ")
+                }
+              </DetailItem>
             </OrderContainer>
           ))}
           <OrderContainer>

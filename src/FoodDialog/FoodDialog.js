@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import { FoodLabel } from '../Menu/FoodGrid';
 import { pizzaRed } from '../Styles/colors';
 import { Title } from '../Styles/title';
-import { formatPrice } from '../Data/FoodData';
+import { formatPrice, foodItems } from '../Data/FoodData';
 import { QuantityInput } from './QuantityInput'; 
 import { useQuantity } from '../Hooks/useQuantity';
+import { Toppings } from './Toppings';
+import { useToppings } from '../Hooks/useToppings';
 
 
 const Dialog = styled.div`
@@ -50,6 +52,7 @@ export const DialogContent = styled.div`
   overflow: auto;
   min-height: 100px;
   padding: 0px 40px;
+  padding-bottom: 80px;
 `;
 
 export const DialogFooter = styled.div`
@@ -71,16 +74,24 @@ export const ConfirmButton = styled(Title)`
   background-color: ${pizzaRed};
 `;
 
+const pricePerTopping = 0.50;
+
 //Calculating price Helper
 export const getPrice = order => {
-  return order.quantity * order.price;
-}
+  const toppingPrice = order.toppings.filter(item => item.checked).length * pricePerTopping ;
+  return order.quantity * (order.price + toppingPrice);
+};
+
+const hasToppings = food => {
+  return food.section === 'Pizza';
+};
 
 
 export const FoodDialog = ({ openFood, setOpenFood, setOrders, orders }) => {
 
   const quantity = useQuantity(openFood && openFood.quantity);
- 
+  const toppings = useToppings(openFood && openFood.toppings);
+
   const closeModal = () => {
     setOpenFood();
     quantity.setValue(1);
@@ -89,7 +100,8 @@ export const FoodDialog = ({ openFood, setOpenFood, setOrders, orders }) => {
   if(!openFood) return null;
   const order = {
     ...openFood,
-    quantity: quantity.value
+    quantity: quantity.value,
+    toppings: toppings.toppings
   };
 
   const addToOrder = () => {
@@ -106,6 +118,10 @@ export const FoodDialog = ({ openFood, setOpenFood, setOrders, orders }) => {
         </DialogBanner>
         <DialogContent>
           <QuantityInput quantity={quantity} />
+          { hasToppings(openFood) && <>
+            <h3>Would you like Topping's?</h3>
+            <Toppings {...toppings} />
+          </>}
         </DialogContent>
         <DialogFooter>
           <ConfirmButton onClick={addToOrder}>
