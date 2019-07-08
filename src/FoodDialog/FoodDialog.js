@@ -8,10 +8,8 @@ import { QuantityInput } from './QuantityInput';
 import { useQuantity } from '../Hooks/useQuantity';
 import { Toppings } from './Toppings';
 import { useToppings } from '../Hooks/useToppings';
-import { getDefaultToppings } from '../Hooks/useToppings';
 import { Drinks } from './Drinks';
 import { useDrinks } from '../Hooks/useDrinks';
-
 
 const Dialog = styled.div`
   width: 500px;
@@ -92,16 +90,16 @@ const hasToppings = food => {
 };
 
 
-export const FoodDialog = ({ openFood, setOpenFood, setOrders, orders }) => {
+export const FoodDialog = ({ openFood, setOpenFood, setOrders, orders,  setOrderToggle, orderToggle }) => {
 
   const quantity = useQuantity(openFood && openFood.quantity);
   const toppings = useToppings(openFood && openFood.toppings);
   const drinks = useDrinks(openFood && openFood.drinks);
+  const isEditing = (openFood && openFood.index > -1);
 
   const closeModal = () => {
     setOpenFood();
     quantity.setValue(1); 
-    toppings.setToppings(getDefaultToppings());
   };
   
   if(!openFood) return null;
@@ -110,6 +108,14 @@ export const FoodDialog = ({ openFood, setOpenFood, setOrders, orders }) => {
     quantity: quantity.value,
     toppings: toppings.toppings,
     drinks: drinks.drinks
+  };
+
+  const editOrder = () => {
+    const newOrders = [...orders];
+    newOrders[openFood.index] = order;
+    setOrders(newOrders);
+    closeModal();
+    setOrderToggle(!orderToggle);
   };
 
   const addToOrder = () => {
@@ -134,8 +140,8 @@ export const FoodDialog = ({ openFood, setOpenFood, setOrders, orders }) => {
           </>}
         </DialogContent>
         <DialogFooter>
-          <ConfirmButton onClick={addToOrder}>
-            Add To Cart: {formatPrice(getPrice(order))}
+          <ConfirmButton onClick={ isEditing ? editOrder : addToOrder}>
+            {isEditing ? "Update Cart" : "Add To Cart"}: {formatPrice(getPrice(order))}
           </ConfirmButton>
         </DialogFooter>
       </Dialog>

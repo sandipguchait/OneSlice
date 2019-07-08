@@ -4,7 +4,6 @@ import { ConfirmButton, DialogFooter, DialogContent } from '../FoodDialog/FoodDi
 import { formatPrice } from '../Data/FoodData';
 import { getPrice } from '../FoodDialog/FoodDialog';
 
-
 const OrderStyled = styled.div`
   position: fixed;
   right: 0px;
@@ -27,6 +26,14 @@ const OrderContent = styled(DialogContent)`
 const OrderContainer = styled.div`
   padding: 10px 0px;
   border-bottom: 1px solid grey;
+  ${({ editable }) => editable ? `
+  &:hover {
+    cursor: pointer;
+    background-color: #e7e7e7;
+  }
+` : `
+  pointer-events: none; 
+`}
 `;
 
 const OrderItem = styled.div`
@@ -42,7 +49,7 @@ const DetailItem = styled.div`
 `
 
 
-export const Order = ({ orders }) => {
+export const Order = ({ orders, setOrders, setOpenFood,  setOrderToggle, orderToggle }) => {
   
   const subTotal = orders.reduce((total, currentPrice) => {
     return total = total + getPrice(currentPrice);
@@ -50,6 +57,12 @@ export const Order = ({ orders }) => {
 
   const Tax = subTotal * 0.07 ;
   const Total = subTotal + Tax ;
+
+  const deleteItem = index => {
+    const newOrders = [...orders];
+    newOrders.splice(index, 1);
+    setOrders(newOrders);
+  }
 
   return (
     <OrderStyled>
@@ -60,11 +73,18 @@ export const Order = ({ orders }) => {
           <OrderContainer>
             <strong>Your Order List</strong>
           </OrderContainer>{" "}
-          {orders.map((order, i) => (
-            <OrderContainer key={i}>
-              <OrderItem>
+          {orders.map((order, index) => (
+            <OrderContainer editable key={index}>
+              <OrderItem onClick={() => {
+                setOrderToggle(!orderToggle);
+                setOpenFood({ ...order, index })
+              }}>
                 <div>{order.quantity}</div>
                 <div>{order.name}</div>
+                <div style={{cursor: 'pointer'}} onClick={(e) =>{
+                  e.stopPropagation();
+                  deleteItem(index);
+                }}><span role="img" aria-label="delete icon">🗑️</span></div>
                 <div>{formatPrice(getPrice(order))}</div>
               </OrderItem>
               <DetailItem>
