@@ -60,8 +60,8 @@ export const Order = ({ orders }) => {
           <OrderContainer>
             <strong>Your Order List</strong>
           </OrderContainer>{" "}
-          {orders.map(order => (
-            <OrderContainer>
+          {orders.map((order, i) => (
+            <OrderContainer key={i}>
               <OrderItem>
                 <div>{order.quantity}</div>
                 <div>{order.name}</div>
@@ -72,29 +72,30 @@ export const Order = ({ orders }) => {
                 .filter(item => item.checked)
                 .map(topping => topping.name)
                 .join(", ")
+                } {", "}
+                {order.drinks
+                .filter(item => item.checked)
+                .map(drink => drink.name)
+                .join(", ")
                 }
               </DetailItem>
             </OrderContainer>
           ))}
           <OrderContainer>
             <OrderItem>
-            <div/>
-            <div>Sub-Total</div>
-            <div>{formatPrice(subTotal)}</div>
+              <div />
+              <div>Sub-Total</div>
+              <div>{formatPrice(subTotal)}</div>
             </OrderItem>
-          </OrderContainer>
-          <OrderContainer>
             <OrderItem>
-            <div/>
-            <div>VAT</div>
-            <div>{formatPrice(Tax)}</div>
+              <div />
+              <div>VAT</div>
+              <div>{formatPrice(Tax)}</div>
             </OrderItem>
-          </OrderContainer>
-          <OrderContainer>
             <OrderItem>
-            <div/>
-            <div><strong>Total</strong></div>
-            <div><strong>{formatPrice(Total)}</strong></div>
+              <div />
+              <div>Total</div>
+              <div>{formatPrice(Total)}</div>
             </OrderItem>
           </OrderContainer>
         </OrderContent> }

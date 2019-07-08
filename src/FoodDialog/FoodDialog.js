@@ -3,11 +3,14 @@ import styled from 'styled-components';
 import { FoodLabel } from '../Menu/FoodGrid';
 import { pizzaRed } from '../Styles/colors';
 import { Title } from '../Styles/title';
-import { formatPrice, foodItems } from '../Data/FoodData';
+import { formatPrice } from '../Data/FoodData';
 import { QuantityInput } from './QuantityInput'; 
 import { useQuantity } from '../Hooks/useQuantity';
 import { Toppings } from './Toppings';
 import { useToppings } from '../Hooks/useToppings';
+import { getDefaultToppings } from '../Hooks/useToppings';
+import { Drinks } from './Drinks';
+import { useDrinks } from '../Hooks/useDrinks';
 
 
 const Dialog = styled.div`
@@ -75,11 +78,13 @@ export const ConfirmButton = styled(Title)`
 `;
 
 const pricePerTopping = 0.50;
+const pricePerDrink = 1.5;
 
 //Calculating price Helper
 export const getPrice = order => {
-  const toppingPrice = order.toppings.filter(item => item.checked).length * pricePerTopping ;
-  return order.quantity * (order.price + toppingPrice);
+  const toppingPrice = order.toppings && order.toppings.filter(item => item.checked).length * pricePerTopping;
+  const drinksPrice = order.drinks && order.drinks.filter(item => item.checked).length * pricePerDrink;
+  return order.quantity * (order.price + toppingPrice + drinksPrice);
 };
 
 const hasToppings = food => {
@@ -91,17 +96,20 @@ export const FoodDialog = ({ openFood, setOpenFood, setOrders, orders }) => {
 
   const quantity = useQuantity(openFood && openFood.quantity);
   const toppings = useToppings(openFood && openFood.toppings);
+  const drinks = useDrinks(openFood && openFood.drinks);
 
   const closeModal = () => {
     setOpenFood();
-    quantity.setValue(1);
+    quantity.setValue(1); 
+    toppings.setToppings(getDefaultToppings());
   };
   
   if(!openFood) return null;
   const order = {
     ...openFood,
     quantity: quantity.value,
-    toppings: toppings.toppings
+    toppings: toppings.toppings,
+    drinks: drinks.drinks
   };
 
   const addToOrder = () => {
@@ -121,6 +129,8 @@ export const FoodDialog = ({ openFood, setOpenFood, setOrders, orders }) => {
           { hasToppings(openFood) && <>
             <h3>Would you like Topping's?</h3>
             <Toppings {...toppings} />
+            <h3>Would you like Drink's?</h3>
+            <Drinks {...drinks} />
           </>}
         </DialogContent>
         <DialogFooter>

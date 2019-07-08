@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-
 export const useToppings = currentToppings => {
   const [ toppings, setToppings ] = useState( currentToppings || getDefaultToppings());
 
@@ -11,7 +10,8 @@ export const useToppings = currentToppings => {
   };
   return {
     checkedTopping,
-    toppings
+    toppings,
+    setToppings
   }
 }
 
@@ -29,7 +29,7 @@ const toppingsList = [
   "Anchovies"
 ];
 
-const getDefaultToppings = () => {
+export const getDefaultToppings = () => {
   return toppingsList.map(topping => ({
     name: topping,
     checked: false

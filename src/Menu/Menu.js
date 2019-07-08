@@ -13,13 +13,13 @@ const MenuStyled = styled.div`
 export const Menu = ({ setOpenFood }) => {
   return (
     <MenuStyled>
-      {Object.entries(foods).map(([sectionName, foods]) => (
+      {Object.entries(foods).map(([sectionName, foods], i) => (
         <>
           <h1>{sectionName}</h1>
-          <FoodGrid>
+          <FoodGrid key={i}>
             {foods.map((food, i) => (
               <Food img={food.img} key={i} onClick={() => setOpenFood(food)}>
-                <FoodLabel>
+                <FoodLabel key={i}>
                 <div>{food.name}</div>
                 <div>{formatPrice(food.price)}</div>
                 </FoodLabel>
