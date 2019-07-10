@@ -33,5 +33,25 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#config-web-app -->
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyD8UAS-VXESffu40TL9KD3GoW8vRvy76QA",
+        authDomain: "oneslice-fb776.firebaseapp.com",
+        databaseURL: "https://oneslice-fb776.firebaseio.com",
+        projectId: "oneslice-fb776",
+        storageBucket: "",
+        messagingSenderId: "591495851939",
+        appId: "1:591495851939:web:d25999cf6a5b31b3"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
   </body>
 </html>

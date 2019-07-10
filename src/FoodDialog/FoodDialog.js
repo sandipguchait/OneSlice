@@ -110,6 +110,7 @@ export const FoodDialog = ({ openFood, setOpenFood, setOrders, orders,  setOrder
     drinks: drinks.drinks
   };
 
+//Edit Order
   const editOrder = () => {
     const newOrders = [...orders];
     newOrders[openFood.index] = order;
@@ -118,6 +119,7 @@ export const FoodDialog = ({ openFood, setOpenFood, setOrders, orders,  setOrder
     setOrderToggle(!orderToggle);
   };
 
+//Adding to Order
   const addToOrder = () => {
     setOrders([...orders, order]);
     closeModal();
