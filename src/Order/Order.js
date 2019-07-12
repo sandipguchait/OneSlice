@@ -56,9 +56,11 @@ const sendOrder = (orders, { email, displayName}) => {
     const newOrders = orders.map(({ drinks, toppings, ...Item}) => {
     const AllDrinks =  drinks && drinks.filter(item => item.checked  === true).map(item => item.name)
     const PizzaToppings =  toppings && toppings.filter(item => item.checked  === true).map(item => item.name)
+    
     return { Item ,AllDrinks ,PizzaToppings}
   }
   );
+  console.log((newOrders[0].Item.name))
   newOrderRef.set({
     order: newOrders,
     email,
