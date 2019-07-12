@@ -52,12 +52,12 @@ const DetailItem = styled.div`
 
 //Sending the order to firebase
 const sendOrder = (orders, { email, displayName}) => {
-  const newOrderRef = database.ref('orders').push();
-  const newOrders = orders.map(({ drinks, toppings, ...Item}) => {
-       const AllDrinks =  drinks.filter(item => item.checked  === true).map(item => item.name)
-       const PizzaToppings =  toppings.filter(item => item.checked  === true).map(item => item.name)
-       return { Item ,AllDrinks ,PizzaToppings}
-      }
+    const newOrderRef = database.ref('orders').push();
+    const newOrders = orders.map(({ drinks, toppings, ...Item}) => {
+    const AllDrinks =  drinks && drinks.filter(item => item.checked  === true).map(item => item.name)
+    const PizzaToppings =  toppings && toppings.filter(item => item.checked  === true).map(item => item.name)
+    return { Item ,AllDrinks ,PizzaToppings}
+  }
   );
   newOrderRef.set({
     order: newOrders,
@@ -66,7 +66,7 @@ const sendOrder = (orders, { email, displayName}) => {
   });
 }
 
-export const Order = ({ orders, setOrders, setOpenFood,  setOrderToggle, orderToggle, loggedIn , login }) => {
+export const Order = ({ orders, setOrders, setOpenFood,  setOrderToggle, orderToggle, loggedIn , login, setOpenCheckoutDialog }) => {
   
   const subTotal = orders.reduce((total, currentPrice) => {
     return total = total + getPrice(currentPrice);
@@ -136,17 +136,20 @@ export const Order = ({ orders, setOrders, setOpenFood,  setOrderToggle, orderTo
             </OrderItem>
           </OrderContainer>
         </OrderContent> }
-        <DialogFooter>
+        {orders.length > 0 && <DialogFooter>
           <ConfirmButton onClick={() => {
             if(loggedIn) {
               sendOrder(orders,loggedIn);
+              setOpenCheckoutDialog(true);
+              setOrders([]);
+              setOrderToggle(false);
             } else {
               login();
             }
           }}>
             CheckOut
           </ConfirmButton>
-        </DialogFooter>
+        </DialogFooter>}
     </OrderStyled>
   )
 }

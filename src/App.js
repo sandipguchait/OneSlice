@@ -10,20 +10,25 @@ import { useToggleHook } from './Hooks/useToggleHook';
 import { useOrders } from './Hooks/useOrder';
 import { useTitle } from './Hooks/useTitle';
 import { useAuthentication } from './Hooks/useAuthentication';
-
+import { CheckOutDialog } from './checkOutDialog/CheckOutDialog';
+import { useCheckoutDialog } from './Hooks/useCheckoutDialog';
 
 const App = () => {
   const openFood = useOpenFood();
   const Toggle = useToggleHook(false);
   const orders = useOrders();
   const auth = useAuthentication();
+  const CheckoutDialog = useCheckoutDialog();
   useTitle({ ...openFood, ...orders });
+
+
   return (
     <>
       <GlobalStyle/>
+      <CheckOutDialog {...CheckoutDialog}/>
       <FoodDialog {...openFood} {...orders} {...Toggle}/>
       <Navbar {...Toggle} {...orders} {...auth} />
-      { Toggle.orderToggle ? <Order {...orders} {...openFood} {...Toggle} {...auth} /> : null}
+      { Toggle.orderToggle ? <Order {...orders} {...openFood} {...Toggle} {...auth} {...CheckoutDialog} /> : null}
       <Banner/>
       <Menu {...openFood}/>
     </>

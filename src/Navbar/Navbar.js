@@ -13,7 +13,7 @@ const Navbarstyled = styled.div`
    z-index: 999;
    display: flex;
    display: grid;
-   grid-template-columns: 1fr auto 120px;
+   grid-template-columns: 1fr auto 140px;
    gap: 20px;
 `
 const Logo = styled(Title)`
@@ -29,9 +29,13 @@ const CartButton = styled(ConfirmButton)`
   border-radius: 5px;
   padding: 3px;
   text-align: center;
-  width: 60px;
+  width: 40px;
   cursor: pointer;
   background-color: white;
+`;
+
+const AuthButton = styled(CartButton)`
+  width: 100px;
 `;
 
 const UserStatus = styled.div`
@@ -39,9 +43,6 @@ const UserStatus = styled.div`
   font-size: 12px;
   margin-right: 30px;
 `;
-const LoginButton = styled.span`
-  cursor: pointer;
-`
 
 export function Navbar({ setOrderToggle, orderToggle, orders, login, loggedIn, logOut }) {
 
@@ -61,9 +62,9 @@ export function Navbar({ setOrderToggle, orderToggle, orders, login, loggedIn, l
         {loggedIn !== "loading" ? (
             <>
               {loggedIn ? (
-                <LoginButton onClick={logOut}> Log out </LoginButton>
+                <AuthButton onClick={logOut}> Log out </AuthButton>
               ) : (
-                <LoginButton onClick={login}> Log in / Sign up </LoginButton>
+                <AuthButton onClick={login}> Log in / Sign up </AuthButton>
               )}
             </>
           ) : (
