@@ -4,6 +4,8 @@ import { ConfirmButton, DialogFooter, DialogContent } from '../FoodDialog/FoodDi
 import { formatPrice } from '../Data/FoodData';
 import { getPrice } from '../FoodDialog/FoodDialog';
 
+const database = window.firebase.database();
+
 const OrderStyled = styled.div`
   position: fixed;
   right: 0px;
@@ -46,8 +48,23 @@ const OrderItem = styled.div`
 const DetailItem = styled.div`
   color: grey;
   font-size: 10px;
-`
+`;
 
+//Sending the order to firebase
+const sendOrder = (orders, { email, displayName}) => {
+  const newOrderRef = database.ref('orders').push();
+  const newOrders = orders.map(({ drinks, toppings, ...Item}) => {
+       const AllDrinks =  drinks.filter(item => item.checked  === true).map(item => item.name)
+       const PizzaToppings =  toppings.filter(item => item.checked  === true).map(item => item.name)
+       return { Item ,AllDrinks ,PizzaToppings}
+      }
+  );
+  newOrderRef.set({
+    order: newOrders,
+    email,
+    displayName
+  });
+}
 
 export const Order = ({ orders, setOrders, setOpenFood,  setOrderToggle, orderToggle, loggedIn , login }) => {
   
@@ -122,7 +139,7 @@ export const Order = ({ orders, setOrders, setOpenFood,  setOrderToggle, orderTo
         <DialogFooter>
           <ConfirmButton onClick={() => {
             if(loggedIn) {
-              console.log('logged In')
+              sendOrder(orders,loggedIn);
             } else {
               login();
             }
