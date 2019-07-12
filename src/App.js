@@ -9,18 +9,21 @@ import { useOpenFood } from './Hooks/useOpenFood';
 import { useToggleHook } from './Hooks/useToggleHook';
 import { useOrders } from './Hooks/useOrder';
 import { useTitle } from './Hooks/useTitle';
+import { useAuthentication } from './Hooks/useAuthentication';
+
 
 const App = () => {
   const openFood = useOpenFood();
   const Toggle = useToggleHook(false);
   const orders = useOrders();
+  const auth = useAuthentication();
   useTitle({ ...openFood, ...orders });
   return (
     <>
       <GlobalStyle/>
       <FoodDialog {...openFood} {...orders} {...Toggle}/>
-      <Navbar {...Toggle} {...orders}/>
-      { Toggle.orderToggle ? <Order {...orders} {...openFood} {...Toggle}/> : null}
+      <Navbar {...Toggle} {...orders} {...auth} />
+      { Toggle.orderToggle ? <Order {...orders} {...openFood} {...Toggle} {...auth} /> : null}
       <Banner/>
       <Menu {...openFood}/>
     </>

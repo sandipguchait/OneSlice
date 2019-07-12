@@ -49,7 +49,7 @@ const DetailItem = styled.div`
 `
 
 
-export const Order = ({ orders, setOrders, setOpenFood,  setOrderToggle, orderToggle }) => {
+export const Order = ({ orders, setOrders, setOpenFood,  setOrderToggle, orderToggle, loggedIn , login }) => {
   
   const subTotal = orders.reduce((total, currentPrice) => {
     return total = total + getPrice(currentPrice);
@@ -120,7 +120,13 @@ export const Order = ({ orders, setOrders, setOpenFood,  setOrderToggle, orderTo
           </OrderContainer>
         </OrderContent> }
         <DialogFooter>
-          <ConfirmButton>
+          <ConfirmButton onClick={() => {
+            if(loggedIn) {
+              console.log('logged In')
+            } else {
+              login();
+            }
+          }}>
             CheckOut
           </ConfirmButton>
         </DialogFooter>
