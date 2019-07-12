@@ -60,7 +60,7 @@ const sendOrder = (orders, { email, displayName}) => {
     return { Item ,AllDrinks ,PizzaToppings}
   }
   );
-  console.log((newOrders[0].Item.name))
+  console.log(newOrders.map(item => item))
   newOrderRef.set({
     order: newOrders,
     email,
